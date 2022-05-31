@@ -1,4 +1,4 @@
-## A Simple Ray - Marching demo
+## A Simple Ray Marching demo
 
 This was created to practice using shaders in Three.js. It implements a fragment shader written in GLSL which implements the [Ray Marching](https://michaelwalczyk.com/blog-ray-marching.html) algorithm. Demo [here](https://ray-marching-jtw.vercel.app/) .
 
