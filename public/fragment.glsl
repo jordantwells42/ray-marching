@@ -4,6 +4,7 @@ uniform float heldTime;
 uniform vec3 mouse;
 uniform vec3 resolution;
 uniform bool holding;
+uniform float pixelation;
 
 mat4 rotationMatrix(vec3 axis, float angle) {
     axis = normalize(axis);
@@ -75,8 +76,6 @@ vec2 sdf(vec3 p){
 
   float box = sdf_box(p1, vec3(0.4));
   float sphere = sdf_sphere(p, 0.001);
-  
-
 
   vec2 final = smin2(vec2(box, 0.5), vec2(sphere,0.5), 0.5);
  
@@ -111,10 +110,19 @@ vec2 sdf(vec3 p){
   return final;
 }
 
+vec2 pixelate(vec2 uv, float k){
+  if (k > 0.){
+  return floor(uv*k)/k;
+  }
+  return uv;
+}
+
+
 void main() {
   vec3 camPos = vec3(0., 0., 6);
-  vec2 newUv = vec2(vUv.x / resolution.x, vUv.y / resolution.y)/0.25;
-  vec3 ray = normalize(vec3(vUv - vec2(0.5, 0.5),-1));
+  
+  vec2 newUv = pixelate(vUv, pixelation);
+  vec3 ray = normalize(vec3(newUv - vec2(0.5, 0.5),-1));
 
 
   float t = 0.;

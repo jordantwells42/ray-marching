@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GUI } from 'dat-gui/vendor/dat.gui'
 
 
 export default function Plane(props){
@@ -10,6 +11,8 @@ export default function Plane(props){
     const loader = new THREE.TextureLoader()
     // Canvas
     const canvas = document.querySelector("canvas.viewport")
+
+    const gui = new GUI()
 
     // Scene
 
@@ -45,7 +48,8 @@ export default function Plane(props){
               heldTime: {value: 0},
               mouse: {value: new THREE.Vector3(-10, -10, 0)},
               resolution: {value: resolution},
-              holding: {value: false}
+              holding: {value: false},
+              pixelation: {value: 1000}
           },
           vertexShader: vertex,
           fragmentShader:  fragment
@@ -53,6 +57,7 @@ export default function Plane(props){
       })
 
 
+      gui.add(material.uniforms.pixelation, "value", 1, 1000).name("Pixelation")
 
     material.color = new THREE.Color(0xff0000)
 
@@ -166,6 +171,7 @@ export default function Plane(props){
         material.uniforms.time.value = elapsedTime
         material.uniforms.heldTime.value += 1 / 60;
         material.uniforms.heldTime.needsUpdate = true
+        material.uniforms.pixelation.needsUpdate = true
 
         // Update objects
         //sphere.rotation.y = .5 * elapsedTime
